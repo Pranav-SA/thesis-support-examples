@@ -57,7 +57,7 @@ All in all, we’re simulating the situation where our application reached the l
 
 <br>
 
-Checkout the traces and service graph through [Observability](../../../../wiki/Observability) setup (Jaeger and Kiali).
+Checkout the traces and service graph through [Observability](../../../../../wiki/Observability) setup (Jaeger and Kiali).
 <br>
 
 >> **Optional:** We can run the image we use in experiment directly to observe the output at `/` or `/limiter` to observe the difference `kubectl --namespace go-app

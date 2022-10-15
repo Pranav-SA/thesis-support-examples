@@ -59,7 +59,7 @@ export NODE_LABEL="beta.kubernetes.io/os=linux"
 
 <br>
 
-Checkout the traces and service performance through [Observability](../../../../wiki/Observability)(Jaeger and grafana).
+Checkout the traces and service performance through [Observability](../../../../../wiki/Observability)(Jaeger and grafana).
 <br>
 
 To run the experiment use the Chaos Toolkit CLI:

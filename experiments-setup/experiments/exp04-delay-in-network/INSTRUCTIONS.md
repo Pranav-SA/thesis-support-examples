@@ -63,7 +63,7 @@ Next, we’re introducing a new (third) application, besides the API and the DB.
 The repeater is a very simple application. All it does is forward requests coming into it to the specified address. So, for example, if we send a request to the repeater, and we specify that we would like it to forward that request to go-app, that’s where it will go. It is intentionally very simple because the objective is to see how multiple applications collaborate together through networking and what happens when we do some damage to the network.
 <br>
 
-Checkout the traces and service graph through [Observability](../../../../wiki/Observability) setup (Jaeger and Kiali).
+Checkout the traces and service graph through [Observability](https://github.com/Pranav-SA/thesis-support-examples/wiki/Observability) setup (Jaeger and Kiali).
 <br>
 To run the experiment use the Chaos Toolkit CLI:
 
