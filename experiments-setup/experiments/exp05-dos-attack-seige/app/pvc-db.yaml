@@ -1,0 +1,15 @@
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  labels:
+    app: go-app-db
+    release: primary
+  name: go-app-db
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "8Gi"

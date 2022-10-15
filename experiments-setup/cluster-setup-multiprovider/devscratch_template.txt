@@ -1,0 +1,48 @@
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="MYBOUNDARY"
+--MYBOUNDARY
+Content-Type: text/cloud-config; charset="us-ascii"
+#cloud-config
+---
+write_files:
+    - path: /etc/hosts
+        permissions: 0664
+        owner: root
+        content: |
+        127.0.0.1 localhost.localdomain localhost
+        127.0.0.1 node-amazon-userdata-mime.service.cnqr.io
+	- path: /home/ec2-user/.aws/config
+        permissions: 0664
+        owner: ec2-user
+        content: |
+        [default]
+        region = us-west-2
+	- path: /root/.aws/config
+        permissions: 0664
+        owner: root
+        content: |
+        [default]
+        region = us-west-2
+	- path: /etc/environment
+        permissions: 0664
+        owner: root
+        content: |
+        AWS_CA_BUNDLE=/etc/pki/ca-trust/source/anchors/root-cert.pem
+        http_proxy=http://proxy.service.cnqr.tech:3128
+        https_proxy=http://proxy.service.cnqr.tech:3128
+        no_proxy=localhost,127.0.0.1,169.254.169.123,169.254.169.254,172.20.0.1,*.us-west-2.amazonaws.com
+	- path: /etc/systemd/system/docker.service.d/http-proxy.conf
+        permissions: 0664
+        owner: root
+        content: |
+        [Service]
+        Environment="HTTP_PROXY=http://proxy.service.cnqr.tech:3128/"
+        Environment="HTTPS_PROXY=http://proxy.service.cnqr.tech:3128/"
+        Environment="NO_PROXY=localhost,127.0.0.1,169.254.169.123,169.254.169.254,172.20.0.1,*.us-west-2.amazonaws.com"
+runcmd:
+    - echo "node-amazon-userdata-mime"
+    - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 478142941285.dkr.ecr.us-west-2.amazonaws.com
+    - curl https://ca.service.cnqr.tech/v1/trust/bundle.crt > root-cert.pem
+    - sudo cp root-cert.pem /etc/pki/ca-trust/source/anchors/
+    - sudo update-ca-trust
+--MYBOUNDARY--

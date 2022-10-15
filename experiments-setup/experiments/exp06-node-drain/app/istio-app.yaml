@@ -1,0 +1,49 @@
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: go-app
+spec:
+  hosts:
+  - go-app.acme.com
+  - go-app
+  gateways:
+  - go-app
+  http:
+  - route:
+    - destination:
+        host: go-app
+        subset: primary
+        port:
+          number: 80
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: go-app
+spec:
+  host: go-app
+  subsets:
+  - name: primary
+    labels:
+      release: primary
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: go-app
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - go-app.acme.com

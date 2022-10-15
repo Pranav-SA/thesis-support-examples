@@ -1,0 +1,43 @@
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: go-app-chaos
+spec:
+  activeDeadlineSeconds: 600
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: go-app-chaos
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      serviceAccountName: chaostoolkit
+      restartPolicy: Never
+      containers:
+      - name: chaostoolkit
+        image: psa28/ctk-custom:1.0.0
+        args:
+        - --verbose
+        - run
+        - /experiment/health-http.yaml
+        env:
+        - name: CHAOSTOOLKIT_IN_POD
+          value: "true"
+        volumeMounts:
+        - name: config
+          mountPath: /experiment
+          readOnly: true
+        resources:
+          limits:
+            cpu: 20m
+            memory: 64Mi
+          requests:
+            cpu: 20m
+            memory: 64Mi
+      volumes:
+      - name: config
+        configMap:
+          name: chaostoolkit-experiments
